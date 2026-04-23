@@ -1,22 +1,62 @@
 import "./NavBar.css";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import logo from "../../photos/logo.ico";
+import { FaUserCircle } from "react-icons/fa";
 
 function NavBar() {
-  return (
-   <nav className="nav">
-  <div className="nav-container">
-    <div className="logomae">
-      {/* <img src={logo} alt="logo" className="logo" /> */}
-    </div>
+  const navigate = useNavigate();
 
-    <ul>
-      <li><Link to="/">Início</Link></li>
-      <li><Link to="/sobre">Sobre</Link></li>
-      <li><Link to="/servicos">Serviços</Link></li>
-      <li><Link to="/contato">Contato</Link></li>
-    </ul>
-  </div>
-</nav>
+  const logado = localStorage.getItem("logado") === "true";
+  const usuario = JSON.parse(localStorage.getItem("usuarioAtual") || "null");
+
+  function irParaServicos() {
+    if (!logado) {
+      navigate("/cadastro", { state: { from: "/servicos" } });
+    } else {
+      navigate("/servicos");
+    }
+  }
+
+  function irParaCadastro() {
+    navigate("/cadastro");
+  }
+
+  return (
+    <nav className="nav">
+      <div className="nav-container">
+        
+        <div className="logomae">
+          <img
+            src={logo}
+            alt="logo"
+            className="logo"
+            onClick={() => navigate("/")}
+            style={{ cursor: "pointer" }}
+          />
+        </div>
+
+        <ul>
+          <li onClick={() => navigate("/")}>Início</li>
+          <li onClick={irParaServicos}>Passagens</li>
+          <li onClick={() => navigate("/sobre")}>Sobre</li>
+          <li onClick={() => navigate("/contato")}>Contato</li>
+
+          {/* 👇 USUÁRIO */}
+          <li
+            className="usuario-box"
+            onClick={!logado ? irParaCadastro : undefined}
+          >
+            <FaUserCircle className="usuario-icone" />
+
+            <span className="usuario-texto">
+              {logado && usuario
+                ? usuario.nome
+                : "Cadastre-se"}
+            </span>
+          </li>
+        </ul>
+      </div>
+    </nav>
   );
 }
 

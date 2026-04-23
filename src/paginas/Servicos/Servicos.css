@@ -1,0 +1,88 @@
+.servicos-container {
+  padding: 40px;
+  text-align: center;
+  min-height: 80vh;
+  background: #0a0a0a;
+  color: white;
+}
+
+.servicos-container h1 {
+  margin-bottom: 30px;
+  font-size: 2.5rem;
+}
+
+/* FORM */
+.form-busca {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.form-busca input {
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  min-width: 180px;
+}
+
+.form-busca button {
+  padding: 12px 20px;
+  border: none;
+  background: #00bfff;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.form-busca button:hover {
+  background: #009acd;
+}
+
+/* RESULTADOS */
+.resultados {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* CARD */
+.card-voo {
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 12px;
+  width: 250px;
+  transition: 0.3s;
+}
+
+.card-voo:hover {
+  transform: translateY(-5px);
+}
+
+.card-voo h2 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.preco {
+  font-size: 1.5rem;
+  color: #00ffcc;
+  margin: 10px 0;
+}
+
+.card-voo button {
+  background: #00bfff;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.card-voo button:hover {
+  background: #009acd;
+}
