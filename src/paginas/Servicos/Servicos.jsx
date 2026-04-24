@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useState, useEffect } from "react";
 import "./Servicos.css";
 
 function Servicos() {
@@ -7,8 +7,10 @@ function Servicos() {
   const [data, setData] = useState("");
   const [resultados, setResultados] = useState([]);
 
+
+useEffect(() => {
+  buscarPassagens();}, []);
   const buscarPassagens = () => {
-    // MOCK (depois dá pra ligar em API)
     const dadosFake = [
       {
         id: 1,
@@ -19,7 +21,7 @@ function Servicos() {
       },
       {
         id: 2,
-        origem: "Rio de Janeiro",
+        origem: "Brasília",
         destino: "Nova York",
         preco: 2800,
         companhia: "Gol",
@@ -31,13 +33,64 @@ function Servicos() {
         preco: 4500,
         companhia: "Azul",
       },
+      {
+        id: 4,
+        origem: "Belo Horizonte",
+        destino: "Paris",
+        preco: 3800,
+        companhia: "TAM",
+      },
+      {
+        id: 5,
+        origem: "Porto Alegre",
+        destino: "Londres",
+        preco: 4200,
+        companhia: "Latam",
+      },
+      {
+        id: 6,
+        origem: "Curitiba",
+        destino: "Tóquio",
+        preco: 5000,
+        companhia: "Gol",
+      },
+      {
+        id: 7,
+        origem: "Recife",
+        destino: "Barcelona",
+        preco: 3500,
+        companhia: "Azul",
+      },
+      {
+        id: 8,
+        origem: "Salvador",
+        destino: "Amsterdã",
+        preco: 4000,
+        companhia: "TAM",
+      },
+      {
+        id: 9,
+        origem: "Brasília",
+        destino: "Dubai",
+        preco: 4800,
+        companhia: "Latam",
+      },
+      {
+        id: 10,
+        origem: "Manaus",
+        destino: "Sydney",
+        preco: 5500,
+        companhia: "Gol",
+      }
     ];
 
-    const filtrados = dadosFake.filter(
-      (voo) =>
+    const filtrados = dadosFake.filter((voo) => {
+      return (
         voo.origem.toLowerCase().includes(origem.toLowerCase()) &&
         voo.destino.toLowerCase().includes(destino.toLowerCase())
-    );
+      );
+    });
+
 
     setResultados(filtrados);
   };
@@ -61,11 +114,6 @@ function Servicos() {
           onChange={(e) => setDestino(e.target.value)}
         />
 
-        <input
-          type="date"
-          value={data}
-          onChange={(e) => setData(e.target.value)}
-        />
 
         <button onClick={buscarPassagens}>Buscar</button>
       </div>
@@ -76,10 +124,10 @@ function Servicos() {
         ) : (
           resultados.map((voo) => (
             <div key={voo.id} className="card-voo">
-              <h2>{voo.origem} → {voo.destino}</h2>
-              <p>Companhia: {voo.companhia}</p>
+              <h2 className="titulo-voo">{voo.origem} → {voo.destino}</h2>
+              <p className="companhia">Companhia: {voo.companhia}</p>
               <p className="preco">R$ {voo.preco}</p>
-              <button>Comprar</button>
+              <button className="btn-comprar">Comprar</button>
             </div>
           ))
         )}

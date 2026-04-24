@@ -8,6 +8,7 @@ import Servicos from "./paginas/Servicos/Servicos.jsx";
 import Contato from "./paginas/Contatos/Contatos.jsx";
 import Cadastro from "./paginas/Cadastro/Cadastro.jsx";
 import RotaProtegida from "./componentes/RotaProtegida/rotaProtegida.jsx";
+import PerfilUsuario from "./paginas/perfilUsuario/perfilUsuario.jsx";
 
 function Layout() {
   return (
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
       { path: "/Cadastro", element: <Cadastro /> },
       { path: "/servicos", element: (<RotaProtegida><Servicos /></RotaProtegida>) },
       { path: "/contato", element: <Contato /> },
+      { path: "/perfil", element: <PerfilUsuario /> },
     ],
   },
 ]);

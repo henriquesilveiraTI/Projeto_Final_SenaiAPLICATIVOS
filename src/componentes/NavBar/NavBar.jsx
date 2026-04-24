@@ -41,12 +41,11 @@ function NavBar() {
           <li onClick={() => navigate("/sobre")}>Sobre</li>
           <li onClick={() => navigate("/contato")}>Contato</li>
 
-          {/* 👇 USUÁRIO */}
           <li
             className="usuario-box"
-            onClick={!logado ? irParaCadastro : undefined}
+            onClick={!logado ? irParaCadastro : () => navigate("/perfil")}
           >
-            <FaUserCircle className="usuario-icone" />
+            <FaUserCircle  className="usuario-icone" />
 
             <span className="usuario-texto">
               {logado && usuario
