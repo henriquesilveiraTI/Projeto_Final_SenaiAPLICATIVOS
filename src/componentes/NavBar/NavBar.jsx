@@ -1,7 +1,6 @@
 import "./NavBar.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import logo from "../../photos/logo.ico";
 import { FaUserCircle } from "react-icons/fa";
 
 function NavBar() {
@@ -28,23 +27,23 @@ function NavBar() {
 
   function navegar(path) {
     navigate(path);
-    setMenuAberto(false); 
+    setMenuAberto(false);
   }
 
   return (
     <nav className="nav">
       <div className="nav-container">
-        
+
         <div className="logomae">
           <img
-            src={logo}
+            src={"./photos/logo.ico"}
             alt="logo"
             className="logo"
             onClick={() => navegar("/")}
           />
         </div>
 
-        <div 
+        <div
           className="menu-toggle"
           onClick={() => setMenuAberto(!menuAberto)}
         >

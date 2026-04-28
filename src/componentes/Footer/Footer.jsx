@@ -1,6 +1,4 @@
-import React from "react";
 import "./Footer.css";
-import logo from "../../photos/logo.ico";
 
 import { FaInstagram, FaFacebookF, FaWhatsapp } from "react-icons/fa";
 
@@ -11,7 +9,7 @@ function Footer() {
     <footer className="footer">
       <div className="footer-container">
 
-        <img src={logo} alt="logo" className="logoF" />
+        <img src={"./photos/logo.ico"} alt="logo" className="logoF" />
 
         <p className="footer-text">
           © {year} - Todos os direitos reservados

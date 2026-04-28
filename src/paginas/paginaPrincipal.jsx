@@ -1,5 +1,4 @@
 import "./paginaPrincipal.css";
-import background from "../photos/background.jpg";
 import { useNavigate } from "react-router-dom";
 
 function PaginaPrincipal() {
@@ -20,7 +19,7 @@ function PaginaPrincipal() {
     <div>
       <section
         className="capa"
-        style={{ backgroundImage: `url(${background})` }}
+        style={{ backgroundImage: `url("./photos/fundocapa.jpg")` }}
       >
         <div className="container">
           
