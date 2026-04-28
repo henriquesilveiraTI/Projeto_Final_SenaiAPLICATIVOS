@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./Cadastro.css";
-import logo from "../../photos/logo.ico";
 
 function Cadastro() {
   const navigate = useNavigate();
@@ -46,7 +45,6 @@ function Cadastro() {
   return (
     <div className="cadastro-container">
       <div className="cadastro-box">
-        <img src={logo} alt="Logo" className="cadastro-logo" />
         <h1 className="cadastro-titulo">Cadastre-se para prosseguir</h1>
 
         <input

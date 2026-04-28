@@ -4,33 +4,24 @@
   border-radius: 5px;
   color: var(--accent);
   background: var(--accent-bg);
-  border: 2px solid transparent;
-  transition: border-color 0.3s;
   margin-bottom: 24px;
-}
-
-.counter:hover {
-  border-color: var(--accent-border);
-}
-
-.counter:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
 }
 
 .hero {
   position: relative;
+  width: 100%;
 }
 
 .hero .base {
   width: 170px;
+  max-width: 100%;
   margin: 0 auto;
 }
 
-.hero .framework,
-.hero .vite {
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: auto;
+@media (max-width: 768px) {
+  .hero .framework,
+  .hero .vite {
+    position: static; 
+    margin-top: 10px;
+  }
 }

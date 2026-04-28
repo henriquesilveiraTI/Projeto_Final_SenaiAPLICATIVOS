@@ -1,7 +1,6 @@
-/* HERO / CAPA */
 .capa {
   width: 100%;
-  min-height: 100vh; /* ocupa tela toda */
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -10,7 +9,7 @@
   position: relative;
 }
 
-/* OVERLAY (melhora leitura do texto) */
+
 .capa::before {
   content: "";
   position: absolute;
@@ -18,7 +17,6 @@
   background: rgba(0, 0, 0, 0.35);
 }
 
-/* CONTEÚDO */
 .container {
   width: 100%;
   max-width: 1100px;
@@ -29,7 +27,6 @@
   animation: fadeUp 1s ease;
 }
 
-/* SAUDAÇÃO */
 .saudacoes {
   font-family: "Poppins", sans-serif;
   color: #fff;
@@ -38,17 +35,15 @@
   font-size: 18px;
 }
 
-/* TÍTULO PRINCIPAL */
 .venhaviver {
   color: #fff;
-  font-size: clamp(28px, 5vw, 52px); /* responsivo */
+  font-size: clamp(28px, 5vw, 52px); 
   margin: 10px 0 20px 0;
   line-height: 1.2;
   font-weight: 600;
   text-shadow: 0 4px 20px rgba(0,0,0,0.5);
 }
 
-/* BOTÃO */
 .btn {
   font-size: 18px;
   color: #fff;
@@ -61,13 +56,11 @@
   font-weight: bold;
 }
 
-/* HOVER */
 .btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
-/* ANIMAÇÃO */
 @keyframes fadeUp {
   from {
     opacity: 0;
@@ -79,7 +72,6 @@
   }
 }
 
-/* SEÇÃO DE SERVIÇOS */
 .titulo-1 {
   text-align: center;
   color: #36a9e1;
@@ -87,7 +79,6 @@
   font-size: 28px;
 }
 
-/* GRID DE SERVIÇOS */
 .icons {
   display: flex;
   justify-content: center;
@@ -96,33 +87,28 @@
   padding: 20px;
 }
 
-/* CARD */
 .um-icon {
   max-width: 250px;
   text-align: center;
   transition: 0.3s;
 }
 
-/* HOVER CARD */
 .um-icon:hover {
   transform: translateY(-5px);
 }
 
-/* TÍTULO CARD */
 .tituloS {
   color: #36a9e1;
   font-size: 22px;
   margin: 10px 0;
 }
 
-/* TEXTO CARD */
 .textoS {
   color: #ffffff;
   font-size: 16px;
   opacity: 0.9;
 }
 
-/* MOBILE */
 @media (max-width: 650px) {
   .venhaviver {
     font-size: 32px;

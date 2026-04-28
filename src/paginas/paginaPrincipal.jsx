@@ -24,7 +24,6 @@ function PaginaPrincipal() {
       >
         <div className="container">
           
-          {/* 👇 saudação dinâmica */}
           <h2 className="saudacoes">
             {logado && usuario
               ? `Bem-vindo, ${usuario.nome}`
@@ -33,13 +32,13 @@ function PaginaPrincipal() {
 
           <div className="venhavivermae">
             <h1 className="venhaviver">
-              Venha viver uma nova experiência
+             Nunca mais esqueça suas viagens novamente!
             </h1>
           </div>
 
           <div className="btnmae">
             <button onClick={irParaServicos} className="btn">
-              Descubra sua próxima viagem
+              Verifique sua próxima viagem
             </button>
           </div>
 
