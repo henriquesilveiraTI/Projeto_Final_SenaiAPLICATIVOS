@@ -85,8 +85,8 @@
 
 .card-voo button {
   background: #00bfff;
-  border: none;
-  padding: 10px;
+  border: 1px black solid;
+  padding: 5px;
   border-radius: 6px;
   cursor: pointer;
   width: 100%;
@@ -101,3 +101,10 @@
   color: #ffffff;
   margin-bottom: 8px;
 }
+
+@media (max-width: 768px) {
+  .servicos-container h1 {
+    font-size: 1.8rem;
+  }
+}
+

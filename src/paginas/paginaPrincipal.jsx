@@ -19,7 +19,6 @@ function PaginaPrincipal() {
     <div>
       <section
         className="capa"
-        style={{ backgroundImage: `url("./photos/fundocapa.jpg")` }}
       >
         <div className="container">
           

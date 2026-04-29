@@ -4,7 +4,7 @@ import "./Servicos.css";
 function Servicos() {
   const [origem, setOrigem] = useState("");
   const [destino, setDestino] = useState("");
-  const [preco, setPreco] = useState("");
+  const [data, setData] = useState("");
   const [companhia, setCompanhia] = useState("");
   const [editandoId, setEditandoId] = useState(null);
 
@@ -17,7 +17,7 @@ function Servicos() {
   }, [passagens]);
 
   const salvarPassagem = () => {
-    if (!origem || !destino || !preco || !companhia) {
+    if (!origem || !destino || !data || !companhia) {
       alert("Preencha todos os campos!");
       return;
     }
@@ -25,7 +25,7 @@ function Servicos() {
     if (editandoId !== null) {       
       const atualizadas = passagens.map((p) =>
         p.id === editandoId
-          ? { ...p, origem, destino, preco, companhia }
+          ? { ...p, origem, destino, data, companhia }
           : p
       );
       setPassagens(atualizadas);
@@ -35,7 +35,7 @@ function Servicos() {
         id: Date.now(),
         origem,
         destino,
-        preco,
+        data,
         companhia,
       };
       setPassagens([...passagens, nova]);
@@ -59,7 +59,7 @@ function Servicos() {
   const editarPassagem = (passagem) => {
     setOrigem(passagem.origem);
     setDestino(passagem.destino);
-    setPreco(passagem.preco);
+    setData(passagem.data);
     setCompanhia(passagem.companhia);
     setEditandoId(passagem.id);
   };
@@ -84,10 +84,10 @@ function Servicos() {
         />
 
         <input
-          type="number"
-          placeholder="Preço"
-          value={preco}
-          onChange={(e) => setPreco(e.target.value)}
+          type="date"
+          placeholder="Data"
+          value={data}
+          onChange={(e) => setData(e.target.value)}
         />
 
         <input
@@ -110,12 +110,11 @@ function Servicos() {
             <div key={voo.id} className="card-voo">
               <h2>{voo.origem} → {voo.destino}</h2>
               <p>Companhia: {voo.companhia}</p>
-              <p>R$ {voo.preco}</p>
+              <p>{voo.data}</p>
 
               <button onClick={() => editarPassagem(voo)}>
                 Editar
               </button>
-
               <button onClick={() => removerPassagem(voo.id)}>
                 Remover
               </button>
