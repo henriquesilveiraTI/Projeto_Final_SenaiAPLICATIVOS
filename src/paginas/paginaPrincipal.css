@@ -126,5 +126,5 @@
 }
 
 .capa { 
-  background-image: url('./photos/Background.jpg');  
+  background-image: url('/photos/Background.jpg');  
 }

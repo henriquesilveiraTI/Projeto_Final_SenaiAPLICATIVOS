@@ -105,7 +105,7 @@
     align-items: center;
     gap: 15px;
     padding: 20px 0;
-
+    border: 1px solid #050505;
     display: none;
   }
 
