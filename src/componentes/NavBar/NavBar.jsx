@@ -1,15 +1,30 @@
 import "./NavBar.css";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaUserCircle } from "react-icons/fa";
 
 function NavBar() {
   const navigate = useNavigate();
 
   const [menuAberto, setMenuAberto] = useState(false);
+  const [usuario, setUsuario] = useState(
+    JSON.parse(localStorage.getItem("usuarioLogado") || "null")
+  );
 
-  const logado = localStorage.getItem("logado") === "true";
-  const usuario = JSON.parse(localStorage.getItem("usuarioAtual") || "null");
+  const logado = !!usuario;
+
+  useEffect(() => {
+    const atualizarUsuario = () => {
+      const user = JSON.parse(localStorage.getItem("usuarioLogado") || "null");
+      setUsuario(user);
+    };
+
+    window.addEventListener("authChange", atualizarUsuario);
+
+    return () => {
+      window.removeEventListener("authChange", atualizarUsuario);
+    };
+  }, []);
 
   function irParaServicos() {
     if (!logado) {
@@ -17,7 +32,7 @@ function NavBar() {
     } else {
       navigate("/servicos");
     }
-    setMenuAberto(false); // fecha menu ao clicar
+    setMenuAberto(false);
   }
 
   function irParaCadastro() {
@@ -27,8 +42,9 @@ function NavBar() {
 
   function navegar(path) {
     navigate(path);
-    setMenuAberto(false);
+    setMenuAberto(false); 
   }
+
 
   return (
     <nav className="nav">
@@ -53,7 +69,7 @@ function NavBar() {
         <ul className={menuAberto ? "ativo" : ""}>
           <li onClick={() => navegar("/")}>Início</li>
           <li onClick={irParaServicos}>Passagens</li>
-          <li onClick={() => navegar("/sobre")}>Sobre</li>
+          <li onClick={() => navegar("/Sobre")}>Carteira</li>
           <li onClick={() => navegar("/contato")}>Contato</li>
 
           <li
@@ -63,9 +79,11 @@ function NavBar() {
             <FaUserCircle className="usuario-icone" />
 
             <span className="usuario-texto">
-              {logado && usuario ? usuario.nome : "Cadastre-se"}
+              {logado ? usuario.nome : "Cadastre-se"}
             </span>
           </li>
+
+         
         </ul>
       </div>
     </nav>

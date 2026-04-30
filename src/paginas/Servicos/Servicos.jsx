@@ -6,15 +6,90 @@ function Servicos() {
   const [destino, setDestino] = useState("");
   const [data, setData] = useState("");
   const [companhia, setCompanhia] = useState("");
-  const [editandoId, setEditandoId] = useState(null);
+  const [mostrarModal, setMostrarModal] = useState(false);
 
- const [passagens, setPassagens] = useState(() => {
-  const dados = localStorage.getItem("passagens");
-  return dados ? JSON.parse(dados) : [];
-});
+  const [passagens, setPassagens] = useState([]);
+  const [carteiraIds, setCarteiraIds] = useState(new Set());
+
+  const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+
+  const formatarData = (data) => {
+    if (!data) return "";
+
+    return new Date(data).toLocaleDateString("pt-BR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  };
+
+  const capitais = [
+    "São Paulo", "Rio de Janeiro", "Belo Horizonte", "Brasília", "Salvador",
+    "Fortaleza", "Recife", "Curitiba", "Porto Alegre", "Florianópolis",
+    "Manaus", "Belém", "Goiânia", "Campo Grande", "Cuiabá",
+    "Natal", "João Pessoa", "Maceió", "Aracaju", "Teresina",
+    "São Luís", "Palmas", "Boa Vista", "Macapá", "Rio Branco",
+    "Porto Velho", "Vitória"
+  ];
+
   useEffect(() => {
-    localStorage.setItem("passagens", JSON.stringify(passagens));
-  }, [passagens]);
+    if (!usuario) return;
+
+    const chave = `carteira_${usuario.email}`;
+    const carteira = JSON.parse(localStorage.getItem(chave)) || [];
+
+    setCarteiraIds(new Set(carteira.map((p) => p.id)));
+  }, []);
+
+  const gerarVoosFake = (quantidade = 100) => {
+    const companhias = ["LATAM", "Gol", "Azul", "VOEPASS", "Avianca"];
+    const voos = [];
+
+    for (let i = 0; i < quantidade; i++) {
+      let origem = capitais[Math.floor(Math.random() * capitais.length)];
+      let destino = capitais[Math.floor(Math.random() * capitais.length)];
+
+      while (destino === origem) {
+        destino = capitais[Math.floor(Math.random() * capitais.length)];
+      }
+
+      const data = new Date();
+      data.setDate(data.getDate() + Math.floor(Math.random() * 60));
+
+      voos.push({
+        id: Date.now() + i + Math.random(),
+        origem,
+        destino,
+        data: data.toISOString().split("T")[0], // mantém padrão
+        companhia: companhias[Math.floor(Math.random() * companhias.length)]
+      });
+    }
+
+    return voos;
+  };
+
+  const buscarVoos = () => {
+    const voosFake = gerarVoosFake(100);
+    setPassagens(voosFake);
+  };
+
+  const salvarNaCarteira = (voo) => {
+    if (!usuario) {
+      alert("Faça login primeiro!");
+      return;
+    }
+
+    const chave = `carteira_${usuario.email}`;
+    const carteiraAtual = JSON.parse(localStorage.getItem(chave)) || [];
+
+    if (carteiraAtual.some((p) => p.id === voo.id)) return;
+
+    const novaCarteira = [...carteiraAtual, voo];
+
+    localStorage.setItem(chave, JSON.stringify(novaCarteira));
+
+    setCarteiraIds(new Set(novaCarteira.map((p) => p.id)));
+  };
 
   const salvarPassagem = () => {
     if (!origem || !destino || !data || !companhia) {
@@ -22,101 +97,93 @@ function Servicos() {
       return;
     }
 
-    if (editandoId !== null) {       
-      const atualizadas = passagens.map((p) =>
-        p.id === editandoId
-          ? { ...p, origem, destino, data, companhia }
-          : p
-      );
-      setPassagens(atualizadas);
-      setEditandoId(null);
-    } else {
-      const nova = {
-        id: Date.now(),
-        origem,
-        destino,
-        data,
-        companhia,
-      };
-      setPassagens([...passagens, nova]);
-    }
+    const nova = {
+      id: Date.now() + Math.random(),
+      origem,
+      destino,
+      data,
+      companhia,
+    };
 
-    limparCampos();
-  };
+    setPassagens((prev) => [...prev, nova]);
+    salvarNaCarteira(nova);
 
-  const limparCampos = () => {
     setOrigem("");
     setDestino("");
-    setPreco("");
+    setData("");
     setCompanhia("");
+    setMostrarModal(false);
   };
 
-  const removerPassagem = (id) => {
-    const filtradas = passagens.filter((p) => p.id !== id);
-    setPassagens(filtradas);
-  };
-
-  const editarPassagem = (passagem) => {
-    setOrigem(passagem.origem);
-    setDestino(passagem.destino);
-    setData(passagem.data);
-    setCompanhia(passagem.companhia);
-    setEditandoId(passagem.id);
-  };
+  const passagensFiltradas = passagens.filter(
+    (voo) => !carteiraIds.has(voo.id)
+  );
 
   return (
     <div className="servicos-container">
-      <h1>Carteira de Passagens</h1>
+      <h1>Busque suas Passagens</h1>
 
-      <div className="form-busca">
-        <input
-          type="text"
-          placeholder="Origem"
-          value={origem}
-          onChange={(e) => setOrigem(e.target.value)}
-        />
-
-        <input
-          type="text"
-          placeholder="Destino"
-          value={destino}
-          onChange={(e) => setDestino(e.target.value)}
-        />
-
-        <input
-          type="date"
-          placeholder="Data"
-          value={data}
-          onChange={(e) => setData(e.target.value)}
-        />
-
-        <input
-          type="text"
-          placeholder="Companhia"
-          value={companhia}
-          onChange={(e) => setCompanhia(e.target.value)}
-        />
-
-        <button onClick={salvarPassagem}>
-          {editandoId ? "Atualizar" : "Adicionar"}
-        </button>
+      <div className="acoes">
+        <button onClick={buscarVoos}>Buscar Voos</button>
+        <button onClick={() => setMostrarModal(true)}>Adicionar Voo</button>
       </div>
 
+      {mostrarModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2>Adicionar Voo</h2>
+
+            <input
+              type="text"
+              placeholder="Origem"
+              value={origem}
+              onChange={(e) => setOrigem(e.target.value)}
+            />
+
+            <input
+              type="text"
+              placeholder="Destino"
+              value={destino}
+              onChange={(e) => setDestino(e.target.value)}
+            />
+
+            <input
+              type="date"
+              value={data}
+              onChange={(e) => setData(e.target.value)}
+            />
+
+            <input
+              type="text"
+              placeholder="Companhia"
+              value={companhia}
+              onChange={(e) => setCompanhia(e.target.value)}
+            />
+
+            <div className="modal-botoes">
+              <button onClick={salvarPassagem}>Salvar</button>
+              <button onClick={() => setMostrarModal(false)}>Cancelar</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="resultados">
-        {passagens.length === 0 ? (
-          <p>Nenhuma passagem cadastrada...</p>
+        {passagensFiltradas.length === 0 ? (
+          <p>Busque voos para ver resultados</p>
         ) : (
-          passagens.map((voo) => (
+          passagensFiltradas.map((voo) => (
             <div key={voo.id} className="card-voo">
               <h2>{voo.origem} → {voo.destino}</h2>
               <p>Companhia: {voo.companhia}</p>
-              <p>{voo.data}</p>
 
-              <button onClick={() => editarPassagem(voo)}>
-                Editar
-              </button>
-              <button onClick={() => removerPassagem(voo.id)}>
-                Remover
+              <p>{formatarData(voo.data)}</p>
+
+              <button
+                onClick={() => salvarNaCarteira(voo)}
+                disabled={carteiraIds.has(voo.id)}
+              >
+                {carteiraIds.has(voo.id) ? "Salvo" : "Salvar"}
               </button>
             </div>
           ))

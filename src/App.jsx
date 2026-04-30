@@ -26,9 +26,28 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { path: "/", element: <Home /> },
-      { path: "/sobre", element: <Sobre /> },
+
+      // 👇 AGORA "Sobre" VAI SER SUA CARTEIRA
+      { 
+        path: "/sobre", 
+        element: (
+          <RotaProtegida>
+            <Sobre />
+          </RotaProtegida>
+        ) 
+      },
+
       { path: "/Cadastro", element: <Cadastro /> },
-      { path: "/servicos", element: (<RotaProtegida><Servicos /></RotaProtegida>) },
+
+      { 
+        path: "/servicos", 
+        element: (
+          <RotaProtegida>
+            <Servicos />
+          </RotaProtegida>
+        ) 
+      },
+
       { path: "/contato", element: <Contato /> },
       { path: "/perfil", element: <PerfilUsuario /> },
     ],

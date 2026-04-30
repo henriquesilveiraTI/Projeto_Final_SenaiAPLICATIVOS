@@ -120,6 +120,6 @@
 
 @media (max-width: 768px) {
   .nav ul {
-    top: 60px; /* ⬅️ bem menor */
+    top: 60px; 
   }
 }

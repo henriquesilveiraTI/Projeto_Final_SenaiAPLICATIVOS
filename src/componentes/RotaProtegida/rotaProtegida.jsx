@@ -1,10 +1,18 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 function RotaProtegida({ children }) {
-  const logado = localStorage.getItem("logado");
+  const location = useLocation();
 
-  if (!logado) {
-    return <Navigate to="/cadastro" />;
+  const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+
+  if (!usuario) {
+    return (
+      <Navigate
+        to="/Cadastro"
+        state={{ from: location.pathname }}
+        replace
+      />
+    );
   }
 
   return children;

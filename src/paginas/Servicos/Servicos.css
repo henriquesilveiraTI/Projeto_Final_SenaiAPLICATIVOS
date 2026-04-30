@@ -2,14 +2,34 @@
   padding: 40px;
   text-align: center;
   min-height: 80vh;
-  background: #008fff;
-  color: rgb(255, 255, 255);
+  color: #fff;
   background: linear-gradient(to bottom, #38a9f5, #053a6e);
 }
 
 .servicos-container h1 {
   margin-bottom: 30px;
   font-size: 2.5rem;
+}
+
+.acoes {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.acoes button {
+  padding: 12px 20px;
+  border: none;
+  background: #00bfff;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.acoes button:hover {
+  background: #009acd;
 }
 
 .form-busca {
@@ -38,13 +58,13 @@
   transition: 0.3s;
 }
 
-.titulo-voo {
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  color: #ffffff;
-}
-
 .form-busca button:hover {
   background: #009acd;
+}
+
+.titulo-voo {
+  font-family: 'Trebuchet MS', Arial, sans-serif;
+  color: #ffffff;
 }
 
 .resultados {
@@ -53,19 +73,14 @@
   gap: 20px;
   justify-content: center;
 }
-.btn-comprar {
-  color: rgb(0, 0, 0);
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: bold;
-}
 
 .card-voo {
-  background: #050404a9;
+  background: rgba(5, 4, 4, 0.66);
   padding: 20px;
   border-radius: 12px;
   width: 250px;
   transition: 0.3s;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-family: 'Trebuchet MS', Arial, sans-serif;
 }
 
 .card-voo:hover {
@@ -77,6 +92,11 @@
   margin-bottom: 10px;
 }
 
+.companhia {
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
 .preco {
   font-size: 1.1rem;
   color: #9bebfffa;
@@ -85,26 +105,104 @@
 
 .card-voo button {
   background: #00bfff;
-  border: 1px black solid;
-  padding: 5px;
+  border: 1px solid black;
+  padding: 6px;
   border-radius: 6px;
   cursor: pointer;
   width: 100%;
+  margin-top: 5px;
 }
 
 .card-voo button:hover {
   background: #009acd;
 }
 
-.companhia {
-  font-size: 0.9rem;
-  color: #ffffff;
-  margin-bottom: 8px;
+.btn-comprar {
+  color: black;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal {
+  background: white;
+  color: black;
+  padding: 25px;
+  border-radius: 12px;
+  width: 320px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  animation: aparecer 0.3s ease;
+}
+
+.modal h2 {
+  margin-bottom: 10px;
+}
+
+.modal input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.modal-botoes {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.modal-botoes button {
+  flex: 1;
+  margin: 5px;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background: #00bfff;
+  color: white;
+  cursor: pointer;
+}
+
+.modal-botoes button:hover {
+  background: #009acd;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @media (max-width: 768px) {
   .servicos-container h1 {
     font-size: 1.8rem;
   }
-}
 
+  .acoes {
+    flex-direction: column;
+  }
+
+  .modal {
+    width: 90%;
+  }
+}

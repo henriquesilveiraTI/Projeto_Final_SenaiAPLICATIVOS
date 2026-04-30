@@ -1,11 +1,28 @@
 import "./paginaPrincipal.css";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 function PaginaPrincipal() {
   const navigate = useNavigate();
 
-  const logado = localStorage.getItem("logado") === "true";
-  const usuario = JSON.parse(localStorage.getItem("usuarioAtual"));
+  const [usuario, setUsuario] = useState(
+    JSON.parse(localStorage.getItem("usuarioLogado") || "null")
+  );
+
+  const logado = !!usuario;
+
+  useEffect(() => {
+    const atualizarUsuario = () => {
+      const user = JSON.parse(localStorage.getItem("usuarioLogado") || "null");
+      setUsuario(user);
+    };
+
+    window.addEventListener("authChange", atualizarUsuario);
+
+    return () => {
+      window.removeEventListener("authChange", atualizarUsuario);
+    };
+  }, []);
 
   function irParaServicos() {
     if (!logado) {
@@ -17,20 +34,18 @@ function PaginaPrincipal() {
 
   return (
     <div>
-      <section
-        className="capa"
-      >
+      <section className="capa">
         <div className="container">
-          
+
           <h2 className="saudacoes">
-            {logado && usuario
+            {logado
               ? `Bem-vindo, ${usuario.nome}`
               : "Seja bem-vindo"}
           </h2>
 
           <div className="venhavivermae">
             <h1 className="venhaviver">
-             Nunca mais esqueça suas viagens novamente!
+              Nunca mais esqueça suas viagens novamente!
             </h1>
           </div>
 

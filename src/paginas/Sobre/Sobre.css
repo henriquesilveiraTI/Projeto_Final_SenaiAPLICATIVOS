@@ -1,0 +1,90 @@
+.sobre-container {
+  padding: 40px;
+  text-align: center;
+  min-height: 80vh;
+  color: #fff;
+  background: linear-gradient(to bottom, #38a9f5, #053a6e);
+}
+
+.sobre-container h1 {
+  margin-bottom: 30px;
+  font-size: 2.5rem;
+  font-family: 'Trebuchet MS', Arial, sans-serif;
+}
+
+.sobre-container p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.lista-passagens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.card-passagem {
+  background: rgba(5, 4, 4, 0.66);
+  padding: 20px;
+  border-radius: 12px;
+  width: 260px;
+  transition: 0.3s;
+  font-family: 'Trebuchet MS', Arial, sans-serif;
+}
+
+.card-passagem:hover {
+  transform: translateY(-5px);
+}
+
+.card-passagem h2 {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.card-passagem p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+}
+
+.card-passagem button {
+  background: #00bfff;
+  border: 1px solid black;
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+  transition: 0.3s;
+}
+
+.card-passagem button:hover {
+  background: #009acd;
+}
+
+@media (max-width: 768px) {
+  .sobre-container h1 {
+    font-size: 1.8rem;
+  }
+
+  .card-passagem {
+    width: 90%;
+  }
+}
+.form-edicao {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input-edicao {
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+}
+
+.botoes-edicao {
+  display: flex;
+  gap: 8px;
+}

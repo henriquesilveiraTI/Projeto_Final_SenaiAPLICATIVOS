@@ -1,0 +1,50 @@
+.perfil-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to bottom, #38a9f5, #053a6e);
+}
+
+.perfil-card {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  width: 350px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.perfil-card h2 {
+  margin-bottom: 20px;
+  color: #053a6e;
+}
+
+.perfil-info {
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.perfil-info p {
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+.perfil-botoes {
+  display: flex;
+  justify-content: center;
+}
+
+.btn-sair {
+  background: #e63946;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-sair:hover {
+  background: #c1121f;
+}
