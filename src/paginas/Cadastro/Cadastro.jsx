@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 import "./Cadastro.css";
 
 function Cadastro() {
@@ -14,7 +15,7 @@ function Cadastro() {
 
   function handleCadastro() {
     if (!nome || !email || !senha) {
-      alert("Preencha todos os campos");
+      toast.error("Preencha todos os campos");
       return;
     }
 
@@ -29,7 +30,7 @@ function Cadastro() {
     const existe = usuarios.find(u => u.email === email);
 
     if (existe) {
-      alert("Email já cadastrado!");
+      toast.error("Email já cadastrado!");
       return;
     }
 

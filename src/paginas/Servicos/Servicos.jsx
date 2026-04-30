@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import "./Servicos.css";
+import { toast } from "react-toastify";
+
 
 function Servicos() {
   const [origem, setOrigem] = useState("");
@@ -7,6 +9,7 @@ function Servicos() {
   const [data, setData] = useState("");
   const [companhia, setCompanhia] = useState("");
   const [mostrarModal, setMostrarModal] = useState(false);
+
 
   const [passagens, setPassagens] = useState([]);
   const [carteiraIds, setCarteiraIds] = useState(new Set());
@@ -75,7 +78,7 @@ function Servicos() {
 
   const salvarNaCarteira = (voo) => {
     if (!usuario) {
-      alert("Faça login primeiro!");
+      toast.error("Faça login primeiro!");
       return;
     }
 
@@ -93,7 +96,7 @@ function Servicos() {
 
   const salvarPassagem = () => {
     if (!origem || !destino || !data || !companhia) {
-      alert("Preencha todos os campos!");
+      toast.error("Preencha todos os campos!");
       return;
     }
 
