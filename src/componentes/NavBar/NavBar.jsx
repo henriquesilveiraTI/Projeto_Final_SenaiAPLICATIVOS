@@ -28,7 +28,7 @@ function NavBar() {
 
   function irParaServicos() {
     if (!logado) {
-      navigate("/cadastro", { state: { from: "/servicos" } });
+      navigate("/Cadastro", { state: { from: "/servicos" } });
     } else {
       navigate("/servicos");
     }
@@ -36,7 +36,7 @@ function NavBar() {
   }
 
   function irParaCadastro() {
-    navigate("/cadastro");
+    navigate("/Cadastro");
     setMenuAberto(false);
   }
 

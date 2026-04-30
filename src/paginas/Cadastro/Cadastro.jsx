@@ -38,10 +38,9 @@ function Cadastro() {
 
     localStorage.setItem("usuarios", JSON.stringify(usuarios));
 
-    // 🔥 PADRÃO CORRETO
     localStorage.setItem("logado", "true");
     localStorage.setItem("usuarioLogado", JSON.stringify(novoUsuario));
-
+    window.dispatchEvent(new Event("authChange"));
     navigate(destino);
   }
 

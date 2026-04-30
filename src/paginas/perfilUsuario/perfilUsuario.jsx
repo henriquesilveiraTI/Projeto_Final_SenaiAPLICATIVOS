@@ -33,7 +33,7 @@ function Perfil() {
       <div className="perfil-container">
         <div className="perfil-card">
           <h2>Você não está logado</h2>
-          <button onClick={() => navigate("/cadastro")}>
+          <button onClick={() => navigate("/Cadastro")}>
             Ir para cadastro
           </button>
         </div>

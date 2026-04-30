@@ -26,7 +26,7 @@ function PaginaPrincipal() {
 
   function irParaServicos() {
     if (!logado) {
-      navigate("/cadastro", { state: { from: "/servicos" } });
+      navigate("/Cadastro", { state: { from: "/servicos" } });
     } else {
       navigate("/servicos");
     }
