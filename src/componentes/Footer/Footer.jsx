@@ -1,34 +1,41 @@
 import "./Footer.css";
 
-import { FaInstagram, FaFacebookF, FaWhatsapp } from "react-icons/fa";
+import { FaInstagram, FaFacebook, FaLinkedin } from "react-icons/fa";
 
 function Footer() {
-  const year = new Date().getFullYear();
-
   return (
     <footer className="footer">
       <div className="footer-container">
+        <p className="footer-text">© {new Date().getFullYear()} - Seu Projeto</p>
 
-        <img src={"./photos/logo.ico"} alt="logo" className="logoF" />
-
-        <p className="footer-text">
-          © {year} - Todos os direitos reservados
-        </p>
-
-        <div className="socials">
-          <a href="#" target="_blank" rel="noreferrer">
+        <div className="footer-icons">
+          <a
+            href="https://instagram.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="icon instagram"
+          >
             <FaInstagram />
           </a>
 
-          <a href="#" target="_blank" rel="noreferrer">
-            <FaFacebookF />
+          <a
+            href="https://facebook.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="icon facebook"
+          >
+            <FaFacebook />
           </a>
 
-          <a href="#" target="_blank" rel="noreferrer">
-            <FaWhatsapp />
+          <a
+            href="https://linkedin.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="icon linkedin"
+          >
+            <FaLinkedin />
           </a>
         </div>
-
       </div>
     </footer>
   );

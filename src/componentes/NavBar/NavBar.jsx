@@ -70,7 +70,6 @@ function NavBar() {
           <li onClick={() => navegar("/")}>Início</li>
           <li onClick={irParaServicos}>Passagens</li>
           <li onClick={() => navegar("/Sobre")}>Carteira</li>
-          <li onClick={() => navegar("/contato")}>Contato</li>
 
           <li
             className="usuario-box"

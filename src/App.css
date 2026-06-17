@@ -1,27 +1,22 @@
-.counter {
-  font-size: 16px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: var(--accent);
-  background: var(--accent-bg);
-  margin-bottom: 24px;
-}
-
-.hero {
-  position: relative;
+html,
+body,
+#root {
+  height: 100%;
   width: 100%;
 }
 
-.hero .base {
-  width: 170px;
-  max-width: 100%;
-  margin: 0 auto;
+body {
+  margin: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
-@media (max-width: 768px) {
-  .hero .framework,
-  .hero .vite {
-    position: static; 
-    margin-top: 10px;
-  }
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
 }

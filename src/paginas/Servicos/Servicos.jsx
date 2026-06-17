@@ -122,13 +122,19 @@ function Servicos() {
     (voo) => !carteiraIds.has(voo.id)
   );
 
-  return (
-    <div className="servicos-container">
+ return (
+  <section className="servicos-container">
+    <div className="servicos-conteudo">
       <h1>Busque suas Passagens</h1>
 
       <div className="acoes">
-        <button onClick={buscarVoos}>Buscar Voos</button>
-        <button onClick={() => setMostrarModal(true)}>Adicionar Voo</button>
+        <button onClick={buscarVoos}>
+          Buscar Voos
+        </button>
+
+        <button onClick={() => setMostrarModal(true)}>
+          Adicionar Voo
+        </button>
       </div>
 
       {mostrarModal && (
@@ -164,8 +170,15 @@ function Servicos() {
             />
 
             <div className="modal-botoes">
-              <button onClick={salvarPassagem}>Salvar</button>
-              <button onClick={() => setMostrarModal(false)}>Cancelar</button>
+              <button onClick={salvarPassagem}>
+                Salvar
+              </button>
+
+              <button
+                onClick={() => setMostrarModal(false)}
+              >
+                Cancelar
+              </button>
             </div>
           </div>
         </div>
@@ -173,27 +186,42 @@ function Servicos() {
 
       <div className="resultados">
         {passagensFiltradas.length === 0 ? (
-          <p>Busque voos para ver resultados</p>
+          <p className="sem-resultados">
+            Nenhuma passagem encontrada.
+          </p>
         ) : (
           passagensFiltradas.map((voo) => (
-            <div key={voo.id} className="card-voo">
-              <h2>{voo.origem} → {voo.destino}</h2>
-              <p>Companhia: {voo.companhia}</p>
+            <div
+              key={voo.id}
+              className="card-voo"
+            >
+              <h2>
+                {voo.origem} → {voo.destino}
+              </h2>
 
-              <p>{formatarData(voo.data)}</p>
+              <p>
+                Companhia: {voo.companhia}
+              </p>
+
+              <p>
+                Data: {formatarData(voo.data)}
+              </p>
 
               <button
                 onClick={() => salvarNaCarteira(voo)}
                 disabled={carteiraIds.has(voo.id)}
               >
-                {carteiraIds.has(voo.id) ? "Salvo" : "Salvar"}
+                {carteiraIds.has(voo.id)
+                  ? "Salvo"
+                  : "Salvar na Carteira"}
               </button>
             </div>
           ))
         )}
       </div>
     </div>
-  );
+  </section>
+);
 }
 
 export default Servicos;

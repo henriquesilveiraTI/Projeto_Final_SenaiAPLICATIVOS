@@ -1,22 +1,30 @@
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet, useLocation } from "react-router-dom";
 
 import NavBar from "./componentes/NavBar/NavBar.jsx";
 import Footer from "./componentes/Footer/Footer.jsx";
+
 import Home from "./paginas/Home/Home.jsx";
 import Sobre from "./paginas/Sobre/Sobre.jsx";
 import Servicos from "./paginas/Servicos/Servicos.jsx";
-import Contato from "./paginas/Contatos/Contatos.jsx";
 import Cadastro from "./paginas/Cadastro/Cadastro.jsx";
-import RotaProtegida from "./componentes/RotaProtegida/rotaProtegida.jsx";
 import PerfilUsuario from "./paginas/perfilUsuario/perfilUsuario.jsx";
 
+import RotaProtegida from "./componentes/RotaProtegida/rotaProtegida.jsx";
+
 function Layout() {
+  const location = useLocation();
+
+  const esconderFooter = location.pathname === "/servicos";
   return (
-    <>
+    <div className="app">
       <NavBar />
-      <Outlet />
-      <Footer />
-    </>
+
+      <main className="content">
+        <Outlet />
+      </main>
+
+      { !esconderFooter && <Footer /> }
+    </div>
   );
 }
 
@@ -27,28 +35,26 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
 
-      // 👇 AGORA "Sobre" VAI SER SUA CARTEIRA
-      { 
-        path: "/sobre", 
+      {
+        path: "/sobre",
         element: (
           <RotaProtegida>
             <Sobre />
           </RotaProtegida>
-        ) 
+        ),
       },
 
-      { path: "/Cadastro", element: <Cadastro /> },
+      { path: "/cadastro", element: <Cadastro /> },
 
-      { 
-        path: "/servicos", 
+      {
+        path: "/servicos",
         element: (
           <RotaProtegida>
             <Servicos />
           </RotaProtegida>
-        ) 
+        ),
       },
 
-      { path: "/contato", element: <Contato /> },
       { path: "/perfil", element: <PerfilUsuario /> },
     ],
   },
