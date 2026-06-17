@@ -15,34 +15,48 @@ function Cadastro() {
   const [erro, setErro] = useState("");
 
   function handleCadastro(e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    setErro("");
+  setErro("");
 
-    const novoUsuario = {
-      nome,
-      email,
-      senha,
-    };
+  const novoUsuario = {
+  id: crypto.randomUUID(),
+  nome,
+  email,
+  senha,
+  passagens: [],
+};
 
-    const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+  const usuarios =
+    JSON.parse(localStorage.getItem("usuarios")) || [];
 
-    const existe = usuarios.find((u) => u.email === email);
+  const existe = usuarios.find(
+    (u) => u.email === email
+  );
 
-    if (existe) {
-      setErro("Este email já está cadastrado");
-      return;
-    }
-
-    usuarios.push(novoUsuario);
-
-    localStorage.setItem("usuarios", JSON.stringify(usuarios));
-    localStorage.setItem("usuarioLogado", JSON.stringify(novoUsuario));
-
-    window.dispatchEvent(new Event("authChange"));
-
-    navigate(destino);
+  if (existe) {
+    setErro("Este email já está cadastrado");
+    return;
   }
+
+  usuarios.push(novoUsuario);
+
+  localStorage.setItem(
+    "usuarios",
+    JSON.stringify(usuarios)
+  );
+
+  localStorage.setItem(
+    "usuarioLogado",
+    JSON.stringify(novoUsuario)
+  );
+
+  window.dispatchEvent(
+    new Event("authChange")
+  );
+
+  navigate(destino);
+}
 
   return (
     <div className="cadastro-container">

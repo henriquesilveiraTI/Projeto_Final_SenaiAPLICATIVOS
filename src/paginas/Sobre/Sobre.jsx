@@ -33,12 +33,7 @@ function Sobre() {
       return;
     }
 
-    const chave = `carteira_${user.email}`;
-
-    const dados =
-      JSON.parse(localStorage.getItem(chave)) || [];
-
-    setPassagens(dados);
+    setPassagens(user.passagens || []);
   }, []);
 
   const pedirConfirmacaoRemocao = (id) => {
@@ -47,24 +42,41 @@ function Sobre() {
   };
 
   const confirmarRemocao = () => {
-    if (!usuario || !vooParaRemover) return;
+  if (!usuario || !vooParaRemover) return;
 
-    const chave = `carteira_${usuario.email}`;
+  const usuarios =
+    JSON.parse(localStorage.getItem("usuarios")) || [];
 
-    const atualizadas = passagens.filter(
+  const indice = usuarios.findIndex(
+    (u) => u.id === usuario.id
+  );
+
+  if (indice === -1) return;
+
+  usuarios[indice].passagens =
+    (usuarios[indice].passagens || []).filter(
       (p) => p.id !== vooParaRemover
     );
 
-    setPassagens(atualizadas);
+  localStorage.setItem(
+    "usuarios",
+    JSON.stringify(usuarios)
+  );
 
-    localStorage.setItem(
-      chave,
-      JSON.stringify(atualizadas)
-    );
+  localStorage.setItem(
+    "usuarioLogado",
+    JSON.stringify(usuarios[indice])
+  );
 
-    setMostrarConfirmacao(false);
-    setVooParaRemover(null);
-  };
+  setUsuario(usuarios[indice]);
+
+  setPassagens(
+    usuarios[indice].passagens
+  );
+
+  setMostrarConfirmacao(false);
+  setVooParaRemover(null);
+};
 
   return (
     <div className="sobre-container">

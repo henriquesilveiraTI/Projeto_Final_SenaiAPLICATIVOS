@@ -1,14 +1,14 @@
 :root {
-  --cor-principal: #01257D;
+  --cor-principal: #08162d;
   --cor-principal-hover: #02329f;
 
-  --cor-destaque: #00a0a0;
+  --cor-destaque: #2b6ac9f8;
   --cor-destaque-hover: #66ffff;
 
   --cor-fundo: #08162d;
   --cor-fundo-secundario: #001b5c;
 
-  --cor-card: #032d91;
+  --cor-card: #112e55fa;
   --cor-card-hover: #0a3da8;
 
   --cor-texto: #FFFFFF;

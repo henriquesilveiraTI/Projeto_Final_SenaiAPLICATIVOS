@@ -1,5 +1,10 @@
 .cadastro-container {
   min-height: calc(100dvh - 152px);
+background: linear-gradient(
+    180deg,
+    var(--cor-fundo),
+    var(--cor-fundo-secundario)
+  );
 
   display: flex;
   justify-content: center;
@@ -27,7 +32,6 @@
   position: absolute;
   inset: 0;
 
-  background: rgba(1, 37, 125, 0.82);
 }
 
 .cadastro-box {
