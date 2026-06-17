@@ -1,4 +1,4 @@
-import "./CampoCustomizado.css";
+import "./campoCustomizado.css";
 
 function CampoCustomizado(props) {
   return (
