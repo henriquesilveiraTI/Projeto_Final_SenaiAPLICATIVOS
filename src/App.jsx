@@ -8,13 +8,17 @@ import Sobre from "./paginas/Sobre/Sobre.jsx";
 import Servicos from "./paginas/Servicos/Servicos.jsx";
 import Cadastro from "./paginas/Cadastro/Cadastro.jsx";
 import PerfilUsuario from "./paginas/perfilUsuario/perfilUsuario.jsx";
+import Login from "./paginas/Login/Login.jsx";
+import EditarVoo from "./paginas/editarVoo/editarVoo.jsx";
 
 import RotaProtegida from "./componentes/RotaProtegida/rotaProtegida.jsx";
 
 function Layout() {
   const location = useLocation();
 
-  const esconderFooter = location.pathname === "/servicos";
+  const esconderFooter =
+    location.pathname === "/servicos";
+
   return (
     <div className="app">
       <NavBar />
@@ -23,7 +27,7 @@ function Layout() {
         <Outlet />
       </main>
 
-      { !esconderFooter && <Footer /> }
+      {!esconderFooter && <Footer />}
     </div>
   );
 }
@@ -33,7 +37,10 @@ const router = createBrowserRouter([
     path: "/",
     element: <Layout />,
     children: [
-      { path: "/", element: <Home /> },
+      {
+        path: "/",
+        element: <Home />,
+      },
 
       {
         path: "/sobre",
@@ -44,7 +51,15 @@ const router = createBrowserRouter([
         ),
       },
 
-      { path: "/cadastro", element: <Cadastro /> },
+      {
+        path: "/cadastro",
+        element: <Cadastro />,
+      },
+
+      {
+        path: "/login",
+        element: <Login />,
+      },
 
       {
         path: "/servicos",
@@ -55,7 +70,23 @@ const router = createBrowserRouter([
         ),
       },
 
-      { path: "/perfil", element: <PerfilUsuario /> },
+      {
+        path: "/perfil",
+        element: (
+          <RotaProtegida>
+            <PerfilUsuario />
+          </RotaProtegida>
+        ),
+      },
+
+      {
+        path: "/editarvoo/:id",
+        element: (
+          <RotaProtegida>
+            <EditarVoo />
+          </RotaProtegida>
+        ),
+      },
     ],
   },
 ]);

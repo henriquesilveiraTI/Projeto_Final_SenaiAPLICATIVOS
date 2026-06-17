@@ -200,6 +200,10 @@
   font-weight: 700;
 }
 
+.modal-botoes button:hover {
+  background: var(--cor-destaque-hover);
+}
+
 .sem-resultados {
   text-align: center;
 
@@ -217,5 +221,42 @@
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+.servicos-erro {
+  width: 100%;
+
+  padding: 12px;
+
+  margin-top: 10px;
+
+  border-radius: 12px;
+
+  background: rgba(255, 75, 75, 0.12);
+  border: 1px solid rgba(255, 75, 75, 0.25);
+
+  color: #ff9a9a;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  text-align: center;
+
+  animation: fadeInErro 0.2s ease;
+}
+
+.servicos-erro-pagina {
+  margin: 20px 0;
+}
+
+@keyframes fadeInErro {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

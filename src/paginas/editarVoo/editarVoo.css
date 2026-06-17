@@ -1,0 +1,162 @@
+.editar-voo-container {
+  min-height: calc(100dvh - 152px);
+background: linear-gradient(
+    180deg,
+    var(--cor-fundo),
+    var(--cor-fundo-secundario)
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px;
+
+  box-sizing: border-box;
+
+  
+
+  position: relative;
+}
+
+.editar-voo-container::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+
+}
+
+.editar-voo {
+  position: relative;
+  z-index: 1;
+
+  width: 100%;
+  max-width: 500px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  padding: 30px;
+
+  border-radius: 24px;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  backdrop-filter: blur(14px);
+
+  border: 1px solid var(--cor-borda);
+
+  box-shadow: var(--sombra-card);
+
+  color: var(--cor-texto);
+
+  animation: fadeIn 0.3s ease;
+}
+
+.editar-voo h1 {
+  margin: 0 0 10px;
+
+  text-align: center;
+
+  color: var(--cor-destaque);
+
+  font-size: 28px;
+}
+
+.editar-voo input {
+  width: 100%;
+
+  height: 55px;
+
+  padding: 0 18px;
+
+  box-sizing: border-box;
+
+  border: 1px solid var(--cor-borda);
+  border-radius: 16px;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  color: white;
+
+  font-size: 16px;
+
+  outline: none;
+
+  transition: 0.25s;
+}
+
+.editar-voo input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.editar-voo input:focus {
+  border-color: var(--cor-destaque);
+
+  box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.15);
+
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.editar-voo button {
+  height: 55px;
+
+  border: none;
+  border-radius: 16px;
+
+  background: var(--cor-destaque);
+
+  color: var(--cor-fundo);
+
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.25s;
+}
+
+.editar-voo button:hover {
+  background: var(--cor-destaque-hover);
+
+  transform: scale(1.02);
+}
+
+.editar-voo button:active {
+  transform: scale(0.98);
+}
+
+.editar-voo-botoes {
+  display: flex;
+  gap: 12px;
+}
+
+.editar-voo-botoes button {
+  flex: 1;
+}
+
+.editar-voo-cancelar {
+  background: rgba(255, 255, 255, 0.1) !important;
+
+  color: white !important;
+
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.editar-voo-cancelar:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

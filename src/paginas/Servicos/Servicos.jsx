@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import "./Servicos.css";
-import { toast } from "react-toastify";
-
 
 function Servicos() {
   const [origem, setOrigem] = useState("");
@@ -10,61 +8,128 @@ function Servicos() {
   const [companhia, setCompanhia] = useState("");
   const [mostrarModal, setMostrarModal] = useState(false);
 
-
   const [passagens, setPassagens] = useState([]);
   const [carteiraIds, setCarteiraIds] = useState(new Set());
+  const [erro, setErro] = useState("");
+  const [vooSalvoId, setVooSalvoId] = useState(null);
+  const [modalSalvo, setModalSalvo] = useState(false);
 
-  const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+  const [usuario, setUsuario] = useState(
+    JSON.parse(localStorage.getItem("usuarioLogado"))
+  );
+
+  const capitais = [
+    "São Paulo",
+    "Rio de Janeiro",
+    "Belo Horizonte",
+    "Brasília",
+    "Salvador",
+    "Fortaleza",
+    "Recife",
+    "Curitiba",
+    "Porto Alegre",
+    "Florianópolis",
+    "Manaus",
+    "Belém",
+    "Goiânia",
+    "Campo Grande",
+    "Cuiabá",
+    "Natal",
+    "João Pessoa",
+    "Maceió",
+    "Aracaju",
+    "Teresina",
+    "São Luís",
+    "Palmas",
+    "Boa Vista",
+    "Macapá",
+    "Rio Branco",
+    "Porto Velho",
+    "Vitória",
+  ];
+
+  useEffect(() => {
+    const atualizarUsuario = () => {
+      setUsuario(
+        JSON.parse(localStorage.getItem("usuarioLogado"))
+      );
+    };
+
+    window.addEventListener("authChange", atualizarUsuario);
+
+    return () => {
+      window.removeEventListener(
+        "authChange",
+        atualizarUsuario
+      );
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!usuario) {
+      setCarteiraIds(new Set());
+      return;
+    }
+
+    const chave = `carteira_${usuario.email}`;
+
+    const carteira =
+      JSON.parse(localStorage.getItem(chave)) || [];
+
+    setCarteiraIds(
+      new Set(carteira.map((p) => p.id))
+    );
+  }, [usuario]);
 
   const formatarData = (data) => {
     if (!data) return "";
 
-    return new Date(data).toLocaleDateString("pt-BR", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
+    const [ano, mes, dia] = data.split("-");
+
+    return `${dia}/${mes}/${ano}`;
   };
 
-  const capitais = [
-    "São Paulo", "Rio de Janeiro", "Belo Horizonte", "Brasília", "Salvador",
-    "Fortaleza", "Recife", "Curitiba", "Porto Alegre", "Florianópolis",
-    "Manaus", "Belém", "Goiânia", "Campo Grande", "Cuiabá",
-    "Natal", "João Pessoa", "Maceió", "Aracaju", "Teresina",
-    "São Luís", "Palmas", "Boa Vista", "Macapá", "Rio Branco",
-    "Porto Velho", "Vitória"
-  ];
-
-  useEffect(() => {
-    if (!usuario) return;
-
-    const chave = `carteira_${usuario.email}`;
-    const carteira = JSON.parse(localStorage.getItem(chave)) || [];
-
-    setCarteiraIds(new Set(carteira.map((p) => p.id)));
-  }, []);
-
   const gerarVoosFake = (quantidade = 100) => {
-    const companhias = ["LATAM", "Gol", "Azul", "VOEPASS", "Avianca"];
+    const companhias = [
+      "LATAM",
+      "Gol",
+      "Azul",
+      "VOEPASS",
+      "Avianca",
+    ];
+
     const voos = [];
 
     for (let i = 0; i < quantidade; i++) {
-      let origem = capitais[Math.floor(Math.random() * capitais.length)];
-      let destino = capitais[Math.floor(Math.random() * capitais.length)];
+      let origem =
+        capitais[Math.floor(Math.random() * capitais.length)];
 
-      while (destino === origem) {
-        destino = capitais[Math.floor(Math.random() * capitais.length)];
+      let destino =
+        capitais[Math.floor(Math.random() * capitais.length)];
+
+      while (origem === destino) {
+        destino =
+          capitais[Math.floor(Math.random() * capitais.length)];
       }
 
       const data = new Date();
-      data.setDate(data.getDate() + Math.floor(Math.random() * 60));
+
+      data.setDate(
+        data.getDate() +
+          Math.floor(Math.random() * 60)
+      );
 
       voos.push({
-        id: Date.now() + i + Math.random(),
+        id: crypto.randomUUID(),
         origem,
         destino,
-        data: data.toISOString().split("T")[0], // mantém padrão
-        companhia: companhias[Math.floor(Math.random() * companhias.length)]
+        data: data.toISOString().split("T")[0],
+        companhia:
+          companhias[
+            Math.floor(
+              Math.random() * companhias.length
+            )
+          ],
       });
     }
 
@@ -72,45 +137,54 @@ function Servicos() {
   };
 
   const buscarVoos = () => {
-    const voosFake = gerarVoosFake(100);
-    setPassagens(voosFake);
+    setErro("");
+    setPassagens(gerarVoosFake(100));
   };
 
-  const salvarNaCarteira = (voo) => {
-    if (!usuario) {
-      toast.error("Faça login primeiro!");
-      return;
-    }
+const salvarNaCarteira = (voo) => {
+  setErro("");
 
-    const chave = `carteira_${usuario.email}`;
-    const carteiraAtual = JSON.parse(localStorage.getItem(chave)) || [];
+  if (!usuario) {
+    setErro("Faça login para salvar passagens.");
+    return;
+  }
 
-    if (carteiraAtual.some((p) => p.id === voo.id)) return;
+  const chave = `carteira_${usuario.email}`;
 
-    const novaCarteira = [...carteiraAtual, voo];
+  const carteiraAtual =
+    JSON.parse(localStorage.getItem(chave)) || [];
 
-    localStorage.setItem(chave, JSON.stringify(novaCarteira));
+  if (
+    carteiraAtual.some((p) => p.id === voo.id)
+  ) {
+    return;
+  }
 
-    setCarteiraIds(new Set(novaCarteira.map((p) => p.id)));
-  };
+  const novaCarteira = [...carteiraAtual, voo];
 
-  const salvarPassagem = () => {
-    if (!origem || !destino || !data || !companhia) {
-      toast.error("Preencha todos os campos!");
-      return;
-    }
+  localStorage.setItem(
+    chave,
+    JSON.stringify(novaCarteira)
+  );
 
-    const nova = {
-      id: Date.now() + Math.random(),
-      origem,
-      destino,
-      data,
-      companhia,
-    };
+  setCarteiraIds(
+    new Set(novaCarteira.map((p) => p.id))
+  );
 
-    setPassagens((prev) => [...prev, nova]);
-    salvarNaCarteira(nova);
+  setVooSalvoId(voo.id);
 
+  setTimeout(() => {
+    setPassagens((prev) =>
+      prev.filter((p) => p.id !== voo.id)
+    );
+  }, 1500);
+
+  setTimeout(() => {
+    setVooSalvoId(null);
+  }, 1500);
+};
+  const fecharModal = () => {
+    setErro("");
     setOrigem("");
     setDestino("");
     setData("");
@@ -118,110 +192,173 @@ function Servicos() {
     setMostrarModal(false);
   };
 
-  const passagensFiltradas = passagens.filter(
-    (voo) => !carteiraIds.has(voo.id)
-  );
+  const salvarPassagem = () => {
+  setErro("");
 
- return (
-  <section className="servicos-container">
-    <div className="servicos-conteudo">
-      <h1>Busque suas Passagens</h1>
+  if (!usuario) {
+    setErro("Faça login para adicionar voos.");
+    return;
+  }
 
-      <div className="acoes">
-        <button onClick={buscarVoos}>
-          Buscar Voos
-        </button>
+  if (
+    !origem ||
+    !destino ||
+    !data ||
+    !companhia
+  ) {
+    setErro("Preencha todos os campos.");
+    return;
+  }
 
-        <button onClick={() => setMostrarModal(true)}>
-          Adicionar Voo
-        </button>
-      </div>
+  const nova = {
+    id: crypto.randomUUID(),
+    origem,
+    destino,
+    data,
+    companhia,
+  };
 
-      {mostrarModal && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h2>Adicionar Voo</h2>
+  setPassagens((prev) => [...prev, nova]);
 
-            <input
-              type="text"
-              placeholder="Origem"
-              value={origem}
-              onChange={(e) => setOrigem(e.target.value)}
-            />
+  salvarNaCarteira(nova);
 
-            <input
-              type="text"
-              placeholder="Destino"
-              value={destino}
-              onChange={(e) => setDestino(e.target.value)}
-            />
+  setModalSalvo(true);
 
-            <input
-              type="date"
-              value={data}
-              onChange={(e) => setData(e.target.value)}
-            />
+  setTimeout(() => {
+    setModalSalvo(false);
+    fecharModal();
+  }, 1000);
+};
 
-            <input
-              type="text"
-              placeholder="Companhia"
-              value={companhia}
-              onChange={(e) => setCompanhia(e.target.value)}
-            />
 
-            <div className="modal-botoes">
-              <button onClick={salvarPassagem}>
-                Salvar
-              </button>
+  return (
+    <section className="servicos-container">
+      <div className="servicos-conteudo">
+        <h1>Busque suas Passagens</h1>
 
-              <button
-                onClick={() => setMostrarModal(false)}
-              >
-                Cancelar
-              </button>
+        <div className="acoes">
+          <button onClick={buscarVoos}>
+            Buscar Voos
+          </button>
+
+          <button
+            onClick={() => {
+              setErro("");
+              setMostrarModal(true);
+            }}
+          >
+            Adicionar Voo
+          </button>
+        </div>
+
+        {mostrarModal && (
+          <div className="modal-overlay">
+            <div className="modal">
+              <h2>Adicionar Voo</h2>
+
+              <input
+                type="text"
+                placeholder="Origem"
+                value={origem}
+                onChange={(e) =>
+                  setOrigem(e.target.value)
+                }
+              />
+
+              <input
+                type="text"
+                placeholder="Destino"
+                value={destino}
+                onChange={(e) =>
+                  setDestino(e.target.value)
+                }
+              />
+
+              <input
+                type="date"
+                value={data}
+                onChange={(e) =>
+                  setData(e.target.value)
+                }
+              />
+
+              <input
+                type="text"
+                placeholder="Companhia"
+                value={companhia}
+                onChange={(e) =>
+                  setCompanhia(e.target.value)
+                }
+              />
+
+              {erro && (
+                <div className="servicos-erro">
+                  {erro}
+                </div>
+              )}
+
+{modalSalvo && (
+  <div className="modal-sucesso">
+    ✓ Salvo na carteira
+  </div>
+)}
+              <div className="modal-botoes">
+                <button onClick={salvarPassagem}>
+                  Salvar na Carteira
+                </button>
+
+                <button onClick={fecharModal}>
+                  Cancelar
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-
-      <div className="resultados">
-        {passagensFiltradas.length === 0 ? (
-          <p className="sem-resultados">
-            Nenhuma passagem encontrada.
-          </p>
-        ) : (
-          passagensFiltradas.map((voo) => (
-            <div
-              key={voo.id}
-              className="card-voo"
-            >
-              <h2>
-                {voo.origem} → {voo.destino}
-              </h2>
-
-              <p>
-                Companhia: {voo.companhia}
-              </p>
-
-              <p>
-                Data: {formatarData(voo.data)}
-              </p>
-
-              <button
-                onClick={() => salvarNaCarteira(voo)}
-                disabled={carteiraIds.has(voo.id)}
-              >
-                {carteiraIds.has(voo.id)
-                  ? "Salvo"
-                  : "Salvar na Carteira"}
-              </button>
-            </div>
-          ))
         )}
+
+        {!mostrarModal && erro && (
+          <div className="servicos-erro servicos-erro-pagina">
+            {erro}
+          </div>
+        )}
+
+        <div className="resultados">
+{passagens.length === 0 ? (
+              <p className="sem-resultados">
+              Nenhuma passagem encontrada.
+            </p>
+          ) : (
+            passagens.map((voo) => (
+              <div
+                key={voo.id}
+                className="card-voo"
+              >
+                <h2>
+                  {voo.origem} → {voo.destino}
+                </h2>
+
+                <p>
+                  Companhia: {voo.companhia}
+                </p>
+
+                <p>
+                  Data: {formatarData(voo.data)}
+                </p>
+
+                <button
+  disabled={vooSalvoId === voo.id}
+  onClick={() => salvarNaCarteira(voo)}
+>
+  {vooSalvoId === voo.id
+    ? "✓ Salvo na Carteira"
+    : "Salvar na Carteira"}
+</button>
+              </div>
+            ))
+          )}
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
 }
 
 export default Servicos;

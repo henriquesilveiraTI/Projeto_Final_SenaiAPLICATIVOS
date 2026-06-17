@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Sobre.css";
 
 function Sobre() {
   const [passagens, setPassagens] = useState([]);
   const [usuario, setUsuario] = useState(null);
 
-  const [editandoId, setEditandoId] = useState(null);
-  const [form, setForm] = useState({
-    origem: "",
-    destino: "",
-    data: "",
-    companhia: ""
-  });
+  const [mostrarConfirmacao, setMostrarConfirmacao] = useState(false);
+  const [vooParaRemover, setVooParaRemover] = useState(null);
+
+  const navigate = useNavigate();
 
   const formatarData = (data) => {
     if (!data) return "";
@@ -24,7 +22,10 @@ function Sobre() {
   };
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("usuarioLogado"));
+    const user = JSON.parse(
+      localStorage.getItem("usuarioLogado")
+    );
+
     setUsuario(user);
 
     if (!user) {
@@ -33,46 +34,36 @@ function Sobre() {
     }
 
     const chave = `carteira_${user.email}`;
-    const dados = JSON.parse(localStorage.getItem(chave)) || [];
+
+    const dados =
+      JSON.parse(localStorage.getItem(chave)) || [];
 
     setPassagens(dados);
   }, []);
 
-  const editar = (voo) => {
-    setEditandoId(voo.id);
-    setForm({
-      origem: voo.origem,
-      destino: voo.destino,
-      data: voo.data,
-      companhia: voo.companhia
-    });
+  const pedirConfirmacaoRemocao = (id) => {
+    setVooParaRemover(id);
+    setMostrarConfirmacao(true);
   };
 
-  const handleChange = (campo, valor) => {
-    setForm({ ...form, [campo]: valor });
-  };
+  const confirmarRemocao = () => {
+    if (!usuario || !vooParaRemover) return;
 
-  const salvarEdicao = () => {
     const chave = `carteira_${usuario.email}`;
 
-    const atualizadas = passagens.map((p) =>
-      p.id === editandoId ? { ...p, ...form } : p
+    const atualizadas = passagens.filter(
+      (p) => p.id !== vooParaRemover
     );
 
     setPassagens(atualizadas);
-    localStorage.setItem(chave, JSON.stringify(atualizadas));
 
-    setEditandoId(null);
-  };
+    localStorage.setItem(
+      chave,
+      JSON.stringify(atualizadas)
+    );
 
-  const remover = (id) => {
-    if (!usuario) return;
-
-    const chave = `carteira_${usuario.email}`;
-    const atualizadas = passagens.filter((p) => p.id !== id);
-
-    setPassagens(atualizadas);
-    localStorage.setItem(chave, JSON.stringify(atualizadas));
+    setMostrarConfirmacao(false);
+    setVooParaRemover(null);
   };
 
   return (
@@ -82,62 +73,78 @@ function Sobre() {
       {!usuario ? (
         <p>Você precisa estar logado.</p>
       ) : passagens.length === 0 ? (
-        <p>Nenhuma passagem salva</p>
+        <p>Nenhuma passagem salva.</p>
       ) : (
         <div className="lista-passagens">
           {passagens.map((voo) => (
-            <div key={voo.id} className="card-passagem">
+            <div
+              key={voo.id}
+              className="card-passagem"
+            >
+              <h2>
+                {voo.origem} → {voo.destino}
+              </h2>
 
-              {editandoId === voo.id ? (
-                <div className="form-edicao">
-                  <input
-                    className="input-edicao"
-                    value={form.origem}
-                    onChange={(e) => handleChange("origem", e.target.value)}
-                    placeholder="Origem"
-                  />
+              <p>
+                {formatarData(voo.data)}
+              </p>
 
-                  <input
-                    className="input-edicao"
-                    value={form.destino}
-                    onChange={(e) => handleChange("destino", e.target.value)}
-                    placeholder="Destino"
-                  />
+              <p>
+                {voo.companhia}
+              </p>
 
-                  <input
-                    className="input-edicao"
-                    type="date"
-                    value={form.data}
-                    onChange={(e) => handleChange("data", e.target.value)}
-                  />
+              <div className="acoes-passagem">
+                <button
+                  onClick={() =>
+                    navigate(
+                      `/editarvoo/${voo.id}`
+                    )
+                  }
+                >
+                  Editar
+                </button>
 
-                  <input
-                    className="input-edicao"
-                    value={form.companhia}
-                    onChange={(e) => handleChange("companhia", e.target.value)}
-                    placeholder="Companhia"
-                  />
-
-                  <div className="botoes-edicao">
-                    <button onClick={salvarEdicao}>Salvar</button>
-                    <button onClick={() => setEditandoId(null)}>Cancelar</button>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  <h2>{voo.origem} → {voo.destino}</h2>
-
-                  <p>{formatarData(voo.data)}</p>
-
-                  <p>{voo.companhia}</p>
-
-                  <button onClick={() => editar(voo)}>Editar</button>
-                  <button onClick={() => remover(voo.id)}>Remover</button>
-                </>
-              )}
-
+                <button
+                  onClick={() =>
+                    pedirConfirmacaoRemocao(voo.id)
+                  }
+                >
+                  Remover
+                </button>
+              </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {mostrarConfirmacao && (
+        <div className="modal-overlay">
+          <div className="modal-confirmacao">
+            <h3>Remover passagem?</h3>
+
+            <p>
+              Esta ação não poderá ser desfeita.
+            </p>
+
+            <div className="modal-confirmacao-botoes">
+              <button
+                className="btn-cancelar"
+                onClick={() => {
+                  setMostrarConfirmacao(false);
+                  setVooParaRemover(null);
+                }}
+              >
+                Cancelar
+              </button>
+
+              <button
+                className="btn-remover"
+                onClick={confirmarRemocao}
+              >
+                Remover
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

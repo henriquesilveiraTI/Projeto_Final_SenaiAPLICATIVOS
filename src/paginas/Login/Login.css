@@ -1,4 +1,4 @@
-.cadastro-container {
+.login-container {
   min-height: calc(100dvh - 152px);
 
   display: flex;
@@ -21,7 +21,7 @@
   overflow: hidden;
 }
 
-.cadastro-container::before {
+.login-container::before {
   content: "";
 
   position: absolute;
@@ -30,7 +30,7 @@
   background: rgba(1, 37, 125, 0.82);
 }
 
-.cadastro-box {
+.login-box {
   position: relative;
   z-index: 1;
 
@@ -63,14 +63,7 @@
   animation: fadeIn 0.4s ease;
 }
 
-.cadastro-logo {
-  width: 90px;
-  height: auto;
-
-  margin: 0 auto 10px;
-}
-
-.cadastro-titulo {
+.login-titulo {
   font-size: 26px;
   font-weight: 700;
 
@@ -79,41 +72,7 @@
   color: var(--cor-destaque);
 }
 
-.cadastro-input {
-  width: 100%;
-  height: 55px;
-
-  padding: 0 18px;
-
-  border: 1px solid var(--cor-borda);
-  border-radius: 16px;
-
-  box-sizing: border-box;
-
-  background: rgba(255, 255, 255, 0.08);
-
-  color: var(--cor-texto);
-
-  font-size: 16px;
-
-  outline: none;
-
-  transition: 0.25s;
-}
-
-.cadastro-input::placeholder {
-  color: var(--cor-texto-secundario);
-}
-
-.cadastro-input:focus {
-  border-color: var(--cor-destaque);
-
-  box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.15);
-
-  background: rgba(255, 255, 255, 0.12);
-}
-
-.cadastro-btn {
+.login-btn {
   width: 100%;
   height: 55px;
 
@@ -132,26 +91,14 @@
   transition: 0.25s;
 }
 
-.cadastro-btn:hover {
+.login-btn:hover {
   background: var(--cor-destaque-hover);
 
   transform: scale(1.02);
 }
 
-.cadastro-btn:active {
+.login-btn:active {
   transform: scale(0.98);
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .auth-tabs {
@@ -202,30 +149,44 @@
   box-shadow: 0 4px 15px rgba(0, 255, 255, 0.2);
 }
 
-.cadastro-erro {
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-erro {
+  display: block;
+
   width: 100%;
 
-  padding: 12px;
+  padding: 10px 12px;
 
   border-radius: 12px;
 
-  background: rgba(255, 75, 75, 0.12);
-  border: 1px solid rgba(255, 75, 75, 0.25);
+  background: rgba(255, 75, 75, 0.15);
+  border: 1px solid rgba(255, 75, 75, 0.3);
 
-  color: #ff9a9a;
+  color: #ff8a8a;
 
   font-size: 14px;
   font-weight: 500;
 
   text-align: center;
 
-  animation: fadeInErro 0.2s ease;
+  animation: aparecerErro 0.2s ease;
 }
 
-@keyframes fadeInErro {
+@keyframes aparecerErro {
   from {
     opacity: 0;
-    transform: translateY(-4px);
+    transform: translateY(-5px);
   }
 
   to {

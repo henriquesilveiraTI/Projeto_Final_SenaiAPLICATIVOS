@@ -1,43 +1,35 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import CampoCustomizado from "../../componentes/campoCustomizado/campoCustomizado";
-import "./Cadastro.css";
+import "./Login.css";
 
-function Cadastro() {
+function Login() {
   const navigate = useNavigate();
   const location = useLocation();
 
   const destino = location.state?.from || "/";
 
-  const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState("");
 
-  function handleCadastro(e) {
+  function handleLogin(e) {
     e.preventDefault();
 
     setErro("");
 
-    const novoUsuario = {
-      nome,
-      email,
-      senha,
-    };
-
     const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
-    const existe = usuarios.find((u) => u.email === email);
+    const usuario = usuarios.find(
+      (u) => u.email === email && u.senha === senha
+    );
 
-    if (existe) {
-      setErro("Este email já está cadastrado");
+    if (!usuario) {
+      setErro("Email ou senha inválidos");
       return;
     }
 
-    usuarios.push(novoUsuario);
-
-    localStorage.setItem("usuarios", JSON.stringify(usuarios));
-    localStorage.setItem("usuarioLogado", JSON.stringify(novoUsuario));
+    localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
 
     window.dispatchEvent(new Event("authChange"));
 
@@ -45,67 +37,60 @@ function Cadastro() {
   }
 
   return (
-    <div className="cadastro-container">
-      <form className="cadastro-box" onSubmit={handleCadastro}>
+    <div className="login-container">
+      <form className="login-box" onSubmit={handleLogin}>
         <div className="auth-tabs">
           <button
             type="button"
-            className="auth-tab auth-tab--active"
+            className="auth-tab"
+            onClick={() => navigate("/cadastro")}
           >
             Cadastro
           </button>
 
           <button
             type="button"
-            className="auth-tab"
-            onClick={() => navigate("/login")}
+            className="auth-tab auth-tab--active"
           >
             Login
           </button>
         </div>
 
-        <h1 className="cadastro-titulo">
-          Cadastre-se para prosseguir
+        <h1 className="login-titulo">
+          Entre na sua conta
         </h1>
 
         <CampoCustomizado
-          placeholder="Nome"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-          required
-        />
-
-        <CampoCustomizado
-          type="email"
           placeholder="Email"
           value={email}
+          type="email"
           onChange={(e) => setEmail(e.target.value)}
           required
         />
 
         <CampoCustomizado
-          type="password"
           placeholder="Senha"
           value={senha}
+          type="password"
           onChange={(e) => setSenha(e.target.value)}
           required
         />
 
         {erro && (
-          <div className="cadastro-erro">
+          <div className="login-erro">
             {erro}
           </div>
         )}
 
         <button
-          className="cadastro-btn"
+          className="login-btn"
           type="submit"
         >
-          Cadastrar
+          Entrar
         </button>
       </form>
     </div>
   );
 }
 
-export default Cadastro;
+export default Login;

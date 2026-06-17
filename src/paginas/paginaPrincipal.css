@@ -13,6 +13,7 @@
 
   background-image: url("/photos/Background.jpg");
   background-size: cover;
+  background-repeat: no-repeat;
   background-position: center;
 }
 
@@ -20,7 +21,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(1, 37, 125, 0.82);
+  background: rgba(10, 11, 59, 0.623);
 }
 
 .container {
