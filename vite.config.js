@@ -7,6 +7,9 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      includeAssets: [
+        'favicon.ico'
+      ],
       manifest: {
         name: 'Projeto Final Senai',
         short_name: 'SenaiApp',
@@ -25,6 +28,11 @@ export default defineConfig({
             src: '/icons/android-chrome-512x512.png',
             sizes: '512x512',
             type: 'image/png'
+          },
+          {
+            src: '/favicon.ico',
+            sizes: '48x48',
+            type: 'image/x-icon'
           }
         ]
       }
