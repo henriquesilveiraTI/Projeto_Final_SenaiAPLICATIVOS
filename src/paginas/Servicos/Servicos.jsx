@@ -13,6 +13,7 @@
     const [erro, setErro] = useState("");
     const [vooSalvoId, setVooSalvoId] = useState(null);
     const [modalSalvo, setModalSalvo] = useState(false);
+    const [pesquisa, setPesquisa] = useState("");
 
     const [usuario, setUsuario] = useState(
       JSON.parse(localStorage.getItem("usuarioLogado"))
@@ -204,11 +205,11 @@
     setPassagens((prev) =>
       prev.filter((p) => p.id !== voo.id)
     );
-  }, 1500);
+  }, 1000);
 
   setTimeout(() => {
     setVooSalvoId(null);
-  }, 1500);
+  }, 1000);
 };
     const fecharModal = () => {
       setErro("");
@@ -256,12 +257,23 @@
       fecharModal();
     }, 1000);
   };
-
+const passagensFiltradas = passagens.filter((voo) =>
+  `${voo.origem} ${voo.destino} ${voo.companhia}`
+    .toLowerCase()
+    .includes(pesquisa.toLowerCase())
+);
 
     return (
       <section className="servicos-container">
         <div className="servicos-conteudo">
           <h1>Busque suas Passagens</h1>
+          <input
+  type="text"
+  className="input-pesquisa"
+  placeholder="🔍 Pesquisar por cidade ou companhia..."
+  value={pesquisa}
+  onChange={(e) => setPesquisa(e.target.value)}
+/>
 
           <div className="acoes">
             <button onClick={buscarVoos}>
@@ -349,13 +361,12 @@
           )}
 
           <div className="resultados">
-  {passagens.length === 0 ? (
-                <p className="sem-resultados">
+{passagensFiltradas.length === 0 ? (
+                  <p className="sem-resultados">
                 Nenhuma passagem encontrada.
               </p>
             ) : (
-              passagens.map((voo) => (
-                <div
+passagensFiltradas.map((voo) => (                <div
                   key={voo.id}
                   className="card-voo"
                 >
