@@ -18,10 +18,14 @@ function EditarVoo() {
     return null;
   }
 
-  const chave = `carteira_${usuario.email}`;
+  const usuarios =
+    JSON.parse(localStorage.getItem("usuarios")) || [];
 
-  const carteira =
-    JSON.parse(localStorage.getItem(chave)) || [];
+  const usuarioAtual = usuarios.find(
+    (u) => u.id === usuario.id
+  );
+
+  const carteira = usuarioAtual?.passagens || [];
 
   const voo = carteira.find(
     (p) => String(p.id) === String(id)
@@ -43,42 +47,58 @@ function EditarVoo() {
     voo?.companhia || ""
   );
 
-const salvarAlteracoes = () => {
-  setErro("");
+  const salvarAlteracoes = () => {
+    setErro("");
 
-  if (
-    !origem ||
-    !destino ||
-    !data ||
-    !companhia
-  ) {
-    setErro("Preencha todos os campos.");
-    return;
-  }
+    if (
+      !origem ||
+      !destino ||
+      !data ||
+      !companhia
+    ) {
+      setErro("Preencha todos os campos.");
+      return;
+    }
 
-  const novaCarteira = carteira.map((p) =>
-    String(p.id) === String(id)
-      ? {
-          ...p,
-          origem,
-          destino,
-          data,
-          companhia,
-        }
-      : p
-  );
+    const novaCarteira = carteira.map((p) =>
+      String(p.id) === String(id)
+        ? {
+            ...p,
+            origem,
+            destino,
+            data,
+            companhia,
+          }
+        : p
+    );
 
-  localStorage.setItem(
-    chave,
-    JSON.stringify(novaCarteira)
-  );
+    const indice = usuarios.findIndex(
+      (u) => u.id === usuario.id
+    );
 
-  setSalvando(true);
+    if (indice === -1) {
+      setErro("Usuário não encontrado.");
+      return;
+    }
 
-  setTimeout(() => {
-    navigate("/sobre");
-  }, 1500);
-};
+    usuarios[indice].passagens = novaCarteira;
+
+    localStorage.setItem(
+      "usuarios",
+      JSON.stringify(usuarios)
+    );
+
+    localStorage.setItem(
+      "usuarioLogado",
+      JSON.stringify(usuarios[indice])
+    );
+
+    setSalvando(true);
+
+    setTimeout(() => {
+      navigate("/sobre");
+    }, 1500);
+  };
 
   if (!voo) {
     return (
@@ -151,13 +171,13 @@ const salvarAlteracoes = () => {
           </button>
 
           <button
-  disabled={salvando}
-  onClick={salvarAlteracoes}
->
-  {salvando
-    ? "✓ Salvo"
-    : "Salvar Alterações"}
-</button>
+            disabled={salvando}
+            onClick={salvarAlteracoes}
+          >
+            {salvando
+              ? "✓ Salvo"
+              : "Salvar Alterações"}
+          </button>
         </div>
       </div>
     </div>
